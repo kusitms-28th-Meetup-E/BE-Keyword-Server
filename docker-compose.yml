@@ -10,3 +10,4 @@
     networks:
       - msa-network
     build: ./KeywordService
+
