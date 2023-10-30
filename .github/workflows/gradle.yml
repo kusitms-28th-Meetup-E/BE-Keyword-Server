@@ -50,5 +50,5 @@
           script: |
             docker pull ${{ secrets.DOCKER_USERNAME }}/keyword:latest
             docker image prune -a -f
-            script: "docker-compose up -d"
+            docker-compose up -d
      
