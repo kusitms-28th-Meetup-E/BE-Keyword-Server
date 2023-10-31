@@ -60,5 +60,5 @@
           script: |
             docker pull ${{ secrets.DOCKER_USERNAME }}/keyword:latest
             docker image prune -a -f
-            docker stop keyword
+    
             docker-compose -f docker-compose-keyword.yml up -d
