@@ -1,5 +1,15 @@
 version: '3'
 services:
+  apigateway:
+    image: gwangjang/apigateway
+    networks:
+      - msa-network
+
+  eureka:
+    image: gwangjang/eureka:latest
+    networks:
+      - msa-network
+
   keyword:
     image: gwangjang/keyword
     depends_on:
@@ -12,13 +22,6 @@ services:
     networks:
       - msa-network
     build: ./KeywordService
-    
-  eureka:
-    image: gwangjang/eureka:latest
-    ports:
-      - 8761:8761 # Eureka 서비스 포트 설정
-    networks:
-      - msa-network
-      
+
 networks:
   msa-network:
