@@ -1,0 +1,17 @@
+version: '3'
+services:
+  keyword:
+    image: gwangjang/keyword
+    depends_on:
+      - eureka
+      - apigateway
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka:8761/eureka/
+    ports:
+      - 8081:8081
+    networks:
+      - msa-network
+    build: ./KeywordService
+
+networks:
+  msa-network:
