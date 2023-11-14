@@ -22,7 +22,7 @@ public class MorphemeController {
     private final NewsAPIService newsAPIService;
     private final MorphemeService morphemeService;
     //@GetMapping("/analysis/{msg}")
-    @Scheduled(cron = "* * * * * 2" , fixedDelay = 30000)
+    @Scheduled(fixedDelay = 30000)
     public String analysis() throws JsonProcessingException {
       String newsList1 = newsAPIService.naverAPI("주 69시간 근로시간 제도 개편");
       String newsList2 = newsAPIService.naverAPI("이태원 참사");
