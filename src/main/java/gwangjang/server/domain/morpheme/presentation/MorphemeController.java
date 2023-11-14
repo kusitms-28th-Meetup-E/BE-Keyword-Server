@@ -21,9 +21,9 @@ import java.util.logging.Logger;
 @RestController
 @RequestMapping("/keyword")
 @RequiredArgsConstructor
-@Log4j
+
 public class MorphemeController {
-    private static final Logger logger = (Logger) LoggerFactory.getLogger(MorphemeController.class);
+
     private final NewsAPIService newsAPIService;
     private final MorphemeService morphemeService;
     //@GetMapping("/analysis/{msg}")
@@ -31,7 +31,7 @@ public class MorphemeController {
     //@Scheduled(cron = "55 3 * * 2")
     @GetMapping("/test")
     public String analysis() throws JsonProcessingException {
-        logger.info("ASYNC Start");
+        System.out.println("ASYNC Start");
         String newsList1 = newsAPIService.naverAPI("주 69시간 근로시간 제도 개편");
         String newsList2 = newsAPIService.naverAPI("이태원 참사");
         String newsList3 = newsAPIService.naverAPI("국민연금 개혁");
@@ -39,25 +39,28 @@ public class MorphemeController {
         asyncMethodNews(newsList1);
         asyncMethodNews2(newsList2);
         asyncMethodNews3(newsList3);
-        logger.info("End");
+        System.out.println("ASYNC END");
       return "success";
     }
     @Async
     public void asyncMethodNews(String newsList1) throws JsonProcessingException {
-        logger.info("ASYNC Start 1");
+        System.out.println("ASYNC Start 1");
         List<Token> newsAnalysis1 =newsAPIService.analysis(newsList1);
+        System.out.println("ASYNC END");
         morphemeService.saveOrUpdateWord(newsAnalysis1, 100 );
     }
     @Async
     public void asyncMethodNews2(String newsList2) throws JsonProcessingException {
-        logger.info("ASYNC Start 2");
+        System.out.println("ASYNC Start 2");
         List<Token> newsAnalysis2 =newsAPIService.analysis(newsList2);
+        System.out.println("ASYNC END");
         morphemeService.saveOrUpdateWord(newsAnalysis2, 200);
     }
     @Async
     public void asyncMethodNews3(String newsList3) throws JsonProcessingException {
-        logger.info("ASYNC Start 3");
+        System.out.println("ASYNC Start 3");
         List<Token> newsAnalysis3 =newsAPIService.analysis(newsList3);
+        System.out.println("ASYNC END");
         morphemeService.saveOrUpdateWord(newsAnalysis3, 300);
     }
 }
