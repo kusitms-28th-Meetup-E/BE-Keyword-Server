@@ -20,7 +20,7 @@ public class MorphemeService {
         for (Token token : tokens) {
             String word = token.getMorph();
             System.out.println("save              " + word);
-            Morpheme existingWord = morphemeRepository.findByWordAndIssueId(word,3);
+            Morpheme existingWord = morphemeRepository.findByWordAndIssueId(word,id);
             if (existingWord != null) {
                 // 단어가 이미 존재하면 count를 업데이트
                 existingWord.setCount(existingWord.getCount() + 1);
