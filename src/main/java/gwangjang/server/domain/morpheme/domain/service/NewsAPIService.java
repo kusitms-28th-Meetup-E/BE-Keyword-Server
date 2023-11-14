@@ -86,11 +86,11 @@ public class NewsAPIService {
                 e.printStackTrace();
             }
         }
-        try {
-            Thread.sleep(1000); // 100 milliseconds delay
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
+//        try {
+//            Thread.sleep(1000); // 100 milliseconds delay
+//        } catch (InterruptedException e) {
+//            Thread.currentThread().interrupt();
+//        }
 
         return rslt.toString();
     }
