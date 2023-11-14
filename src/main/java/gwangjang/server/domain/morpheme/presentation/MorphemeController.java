@@ -6,7 +6,8 @@ import gwangjang.server.domain.morpheme.domain.service.NewsAPIService;
 import io.swagger.annotations.ApiOperation;
 import kr.co.shineware.nlp.komoran.model.Token;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j;
+
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -16,22 +17,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.logging.Logger;
+
 
 @RestController
 @RequestMapping("/keyword")
 @RequiredArgsConstructor
 
 public class MorphemeController {
-
+    private final Logger logger = LoggerFactory.getLogger(MorphemeController.class);
     private final NewsAPIService newsAPIService;
     private final MorphemeService morphemeService;
     //@GetMapping("/analysis/{msg}")
 
-    //@Scheduled(cron = "55 3 * * 2")
-    @GetMapping("/test")
+    @Scheduled(fixedRate = 1000000000)
+    //@GetMapping("/test")
     public String analysis() throws JsonProcessingException {
-        System.out.println("ASYNC Start");
+        logger.debug("ASYNC Start");
         String newsList1 = newsAPIService.naverAPI("주 69시간 근로시간 제도 개편");
         String newsList2 = newsAPIService.naverAPI("이태원 참사");
         String newsList3 = newsAPIService.naverAPI("국민연금 개혁");
@@ -44,23 +45,23 @@ public class MorphemeController {
     }
     @Async
     public void asyncMethodNews(String newsList1) throws JsonProcessingException {
-        System.out.println("ASYNC Start 1");
+        logger.debug("ASYNC Start 1");
         List<Token> newsAnalysis1 =newsAPIService.analysis(newsList1);
-        System.out.println("ASYNC END");
+        logger.debug("ASYNC Start");
         morphemeService.saveOrUpdateWord(newsAnalysis1, 100 );
     }
     @Async
     public void asyncMethodNews2(String newsList2) throws JsonProcessingException {
-        System.out.println("ASYNC Start 2");
+        logger.debug("ASYNC Start 2");
         List<Token> newsAnalysis2 =newsAPIService.analysis(newsList2);
-        System.out.println("ASYNC END");
+        logger.debug("ASYNC Start 3");
         morphemeService.saveOrUpdateWord(newsAnalysis2, 200);
     }
     @Async
     public void asyncMethodNews3(String newsList3) throws JsonProcessingException {
-        System.out.println("ASYNC Start 3");
+        logger.debug("ASYNC Start 4 ");
         List<Token> newsAnalysis3 =newsAPIService.analysis(newsList3);
-        System.out.println("ASYNC END");
+        logger.debug("ASYNC Start 5");
         morphemeService.saveOrUpdateWord(newsAnalysis3, 300);
     }
 }
