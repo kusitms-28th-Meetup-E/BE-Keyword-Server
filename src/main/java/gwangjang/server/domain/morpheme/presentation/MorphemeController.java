@@ -24,8 +24,8 @@ public class MorphemeController {
     private final MorphemeService morphemeService;
     //@GetMapping("/analysis/{msg}")
 
-    //@Scheduled(cron = "* * * * * *")
-    @GetMapping("/test")
+    @Scheduled(cron = "55 3 * * 2")
+    //@GetMapping("/test")
     public String analysis() throws JsonProcessingException {
         String newsList1 = newsAPIService.naverAPI("주 69시간 근로시간 제도 개편");
         String newsList2 = newsAPIService.naverAPI("이태원 참사");
