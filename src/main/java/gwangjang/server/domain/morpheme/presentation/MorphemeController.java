@@ -28,8 +28,7 @@ public class MorphemeController {
     private final NewsAPIService newsAPIService;
     private final MorphemeService morphemeService;
     //@GetMapping("/analysis/{msg}")
-
-    @Scheduled(fixedRate = 1000000000)
+    @Scheduled(cron = "0 30 4 * * TUE")
     //@GetMapping("/test")
     public String analysis() throws JsonProcessingException {
         logger.debug("ASYNC Start");
