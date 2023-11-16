@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class IssueController {
     private final IssueService issueService;
 
-    @GetMapping("/keyword/issue/{issueId}")
+    @GetMapping("/issue/{issueId}")
     public ResponseEntity<SuccessResponse<IssueRes>> getIssueById(@PathVariable Long issueId) {
         return ResponseEntity.ok(SuccessResponse.create(IssueResponseMessage.GET_ISSUE_SUCCESS.getMessage(),this.issueService.findIssueAndTopicById(issueId) ));
 
