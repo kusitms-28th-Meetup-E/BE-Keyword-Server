@@ -1,4 +1,4 @@
-package gwangjang.server.domain.morpheme.domain.entity;
+package gwangjang.server.domain.Issue.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

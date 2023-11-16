@@ -1,9 +1,9 @@
 package gwangjang.server.domain.morpheme.presentation;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import gwangjang.server.domain.morpheme.domain.service.AsyncService;
 import gwangjang.server.domain.morpheme.domain.service.MorphemeService;
 import gwangjang.server.domain.morpheme.domain.service.NewsAPIService;
-import io.swagger.annotations.ApiOperation;
 import kr.co.shineware.nlp.komoran.model.Token;
 import lombok.RequiredArgsConstructor;
 
@@ -11,12 +11,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 
 @RestController
@@ -27,40 +27,34 @@ public class MorphemeController {
     private final Logger logger = LoggerFactory.getLogger(MorphemeController.class);
     private final NewsAPIService newsAPIService;
     private final MorphemeService morphemeService;
-    //@GetMapping("/analysis/{msg}")
-    @Scheduled(fixedRate = 24 * 60 * 60 * 1000)
-    //@GetMapping("/test")
-    public String analysis() throws JsonProcessingException {
-        logger.debug("ASYNC Start");
-        String newsList1 = newsAPIService.naverAPI("주 69시간 근로시간 제도 개편");
-        String newsList2 = newsAPIService.naverAPI("이태원 참사");
-        String newsList3 = newsAPIService.naverAPI("국민연금 개혁");
+    private final AsyncService asyncSerivce;
 
-        asyncMethodNews(newsList1);
-        asyncMethodNews2(newsList2);
-        asyncMethodNews3(newsList3);
-        System.out.println("ASYNC END");
-      return "success";
-    }
-    @Async
-    public void asyncMethodNews(String newsList1) throws JsonProcessingException {
-        logger.debug("ASYNC Start 1");
-        List<Token> newsAnalysis1 =newsAPIService.analysis(newsList1);
+    //@Scheduled(fixedRate = 24 * 60 * 60 * 1000)
+    public String analysis(String msg) throws JsonProcessingException {
         logger.debug("ASYNC Start");
-        morphemeService.saveOrUpdateWord(newsAnalysis1, 100 );
+        String newsList1 = newsAPIService.naverAPI(msg);
+        String newsList2 = newsAPIService.naverAPI(msg);
+
+
+        CompletableFuture<Void> future1 = asyncSerivce.asyncMethodNews(newsList1);
+        CompletableFuture<Void> future2 = asyncSerivce.asyncMethodNews2(newsList2);
+        //CompletableFuture<Void> future3 = asyncMethodNews3(newsList3);
+
+        CompletableFuture<Void> allOf = CompletableFuture.allOf(
+                asyncSerivce.asyncMethodNews(newsList1),
+                asyncSerivce.asyncMethodNews2(newsList2)
+                //asyncMethodNews3(newsList3)
+        );
+        // 모든 비동기 작업이 완료되기를 기다리고 "success" 반환
+        try {
+            allOf.get(); // 대기
+            logger.debug("비동기 종료");
+            return "success";
+        } catch (InterruptedException | ExecutionException e) {
+            logger.error("비동기 작업 중 오류 발생", e);
+            return "error";
+        }
     }
-    @Async
-    public void asyncMethodNews2(String newsList2) throws JsonProcessingException {
-        logger.debug("ASYNC Start 2");
-        List<Token> newsAnalysis2 =newsAPIService.analysis(newsList2);
-        logger.debug("ASYNC Start 3");
-        morphemeService.saveOrUpdateWord(newsAnalysis2, 200);
-    }
-    @Async
-    public void asyncMethodNews3(String newsList3) throws JsonProcessingException {
-        logger.debug("ASYNC Start 4 ");
-        List<Token> newsAnalysis3 =newsAPIService.analysis(newsList3);
-        logger.debug("ASYNC Start 5");
-        morphemeService.saveOrUpdateWord(newsAnalysis3, 300);
-    }
+
+
 }
