@@ -1,4 +1,5 @@
-package gwangjang.server.domain.morpheme.domain.entity;
+package gwangjang.server.domain.Issue.domain.entity;
+
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -15,7 +16,11 @@ public class Issue {
     @Column(name = "issue_id")
     private Long id;
     private String issueTitle;
+
+    private String imgUrl;
     @ManyToOne
     @JoinColumn(name = "topic_id")
     private Topic topic;
+
+
 }
