@@ -1,30 +1,23 @@
 package gwangjang.server.domain.Issue.domain.entity;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class Issue {
+public class Keyword {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "issue_id")
+    @Column(name = "keyword_id")
     private Long id;
-    private String issueTitle;
-
-    private String imgUrl;
+    private String keyword;
     @ManyToOne
-    @JoinColumn(name = "topic_id")
-    private Topic topic;
-    @OneToMany(fetch = FetchType.LAZY)
-    List<Keyword> keywords = new ArrayList<>();
+    @JoinColumn(name = "issue_id")
+    private Issue issue;
+
 
 }

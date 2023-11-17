@@ -11,4 +11,7 @@ public class IssueRes {
     private String issueTitle;
     private String topicTitle;
     private String imgUrl;
+
+    private Long issueId;
+    private Long topicId;
 }
