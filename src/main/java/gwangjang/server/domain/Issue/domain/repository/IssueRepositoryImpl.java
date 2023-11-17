@@ -80,4 +80,5 @@ public class IssueRepositoryImpl extends QuerydslRepositorySupport {
         return Optional.ofNullable(keywordRes);
     }
 
+
 }
