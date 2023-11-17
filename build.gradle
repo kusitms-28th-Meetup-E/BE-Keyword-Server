@@ -19,6 +19,7 @@ configurations {
 
 repositories {
 	mavenCentral()
+	maven { url 'https://jitpack.io' }
 }
 
 ext {
@@ -69,6 +70,23 @@ dependencies {
 
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
+	// 형태소
+	implementation 'com.github.shin285:KOMORAN:3.3.4'
+
+	implementation 'org.json:json:20210307'
+	implementation 'com.googlecode.json-simple:json-simple:1.1'
+
+
+
+	implementation group: 'io.springfox', name: 'springfox-boot-starter', version: '3.0.0' // 사용 가능한 최신 버전으로 업데이트하세요
+
+	//spring batch
+	implementation 'org.springframework.boot:spring-boot-starter-batch'
+
+	implementation "org.springframework.boot:spring-boot-starter-quartz"
+
+	implementation 'commons-logging:commons-logging:1.2'
+	implementation group: 'log4j', name: 'log4j', version: '1.2.17'
 
 }
 
