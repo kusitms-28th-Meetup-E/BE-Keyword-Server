@@ -23,7 +23,7 @@ public class IssueController {
     public ResponseEntity<SuccessResponse<IssueRes>> getIssueById(@PathVariable Long issueId) {
         return ResponseEntity.ok(SuccessResponse.create(IssueResponseMessage.GET_ISSUE_SUCCESS.getMessage(),this.issueService.findIssueAndTopicById(issueId) ));
     }
-    @GetMapping("/issue/keyword/{issueId}")
+    @GetMapping("/issue/{issueId}/keyword")
     public ResponseEntity<SuccessResponse<List<KeywordRes>>> getKeywordById(@PathVariable Long issueId) {
         return ResponseEntity.ok(SuccessResponse.create(IssueResponseMessage.GET_ISSUE_SUCCESS.getMessage(),this.issueService.getKeywordsByIssueId(issueId)));
     }
