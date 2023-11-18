@@ -1,7 +1,10 @@
 package gwangjang.server.domain.Issue.domain.service;
 
+import gwangjang.server.domain.Issue.application.dto.res.BubbleChartRes;
 import gwangjang.server.domain.Issue.application.dto.res.IssueRes;
 import gwangjang.server.domain.Issue.application.dto.res.KeywordRes;
+import gwangjang.server.domain.Issue.application.dto.res.TotalRes;
+import gwangjang.server.domain.Issue.domain.entity.Issue;
 import gwangjang.server.domain.Issue.domain.entity.Keyword;
 import gwangjang.server.domain.Issue.domain.repository.IssueCustomRepository;
 import gwangjang.server.domain.Issue.domain.repository.IssueRepository;
@@ -61,4 +64,14 @@ public class IssueService {
                 .map(keyword -> KeywordRes.fromIssueAndKeyword(issue, keyword))
                 .collect(Collectors.toList());
     }
+
+//    public List<BubbleChartRes> getIssueAndTopic(){
+//
+//    }
+    public List<TotalRes> getTotals() {
+        List<Issue> issues = issueRepository.findAll();
+        List<Keyword> keywords = keywordRepository.findAll();
+
+    return TotalRes.fromIssuesAndKeywords(issues, keywords);
+}
 }

@@ -2,6 +2,7 @@ package gwangjang.server.domain.Issue.presentation;
 
 import gwangjang.server.domain.Issue.application.dto.res.IssueRes;
 import gwangjang.server.domain.Issue.application.dto.res.KeywordRes;
+import gwangjang.server.domain.Issue.application.dto.res.TotalRes;
 import gwangjang.server.domain.Issue.domain.service.IssueService;
 import gwangjang.server.domain.Issue.exception.NotFoundIssueException;
 import gwangjang.server.domain.Issue.presentation.constant.IssueResponseMessage;
@@ -26,5 +27,9 @@ public class IssueController {
     @GetMapping("/issue/{issueId}/keyword")
     public ResponseEntity<SuccessResponse<List<KeywordRes>>> getKeywordById(@PathVariable Long issueId) {
         return ResponseEntity.ok(SuccessResponse.create(IssueResponseMessage.GET_ISSUE_SUCCESS.getMessage(),this.issueService.getKeywordsByIssueId(issueId)));
+    }
+    @GetMapping("/issue/all")
+    public ResponseEntity<SuccessResponse<List<TotalRes>>> getAll() {
+        return ResponseEntity.ok(SuccessResponse.create(IssueResponseMessage.GET_ISSUE_SUCCESS.getMessage(),this.issueService.getTotals()));
     }
 }
