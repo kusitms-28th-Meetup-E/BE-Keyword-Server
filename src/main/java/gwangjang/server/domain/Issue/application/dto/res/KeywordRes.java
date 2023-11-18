@@ -1,10 +1,13 @@
 package gwangjang.server.domain.Issue.application.dto.res;
 
+import gwangjang.server.domain.Issue.domain.entity.Issue;
 import gwangjang.server.domain.Issue.domain.entity.Keyword;
 import gwangjang.server.domain.Issue.domain.entity.Topic;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Builder
@@ -32,5 +35,6 @@ public class KeywordRes {
                 .keyword(keyword.getKeyword())
                 .build();
     }
+
 
 }
