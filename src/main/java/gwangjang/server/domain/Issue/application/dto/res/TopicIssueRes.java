@@ -12,6 +12,5 @@ public class TopicIssueRes {
     private Long id;
     private String issueTitle;
 
-    private String imgUrl;
 
 }

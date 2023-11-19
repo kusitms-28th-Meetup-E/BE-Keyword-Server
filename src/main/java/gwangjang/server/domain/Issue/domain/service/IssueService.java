@@ -85,7 +85,6 @@ public class IssueService {
                 TopicIssueRes topicIssueRes = TopicIssueRes.builder()
                         .id(issue.getId())
                         .issueTitle(issue.getIssueTitle())
-                        .imgUrl(issue.getImgUrl())
                         .build();
 
                 topicIssueResList.add(topicIssueRes);
