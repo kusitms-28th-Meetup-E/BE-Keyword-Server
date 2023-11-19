@@ -2,6 +2,7 @@ package gwangjang.server.domain.Issue.presentation;
 
 import gwangjang.server.domain.Issue.application.dto.res.IssueRes;
 import gwangjang.server.domain.Issue.application.dto.res.KeywordRes;
+import gwangjang.server.domain.Issue.application.dto.res.TopicAndIssueRes;
 import gwangjang.server.domain.Issue.application.dto.res.TotalRes;
 import gwangjang.server.domain.Issue.domain.service.IssueService;
 import gwangjang.server.domain.Issue.exception.NotFoundIssueException;
@@ -32,4 +33,9 @@ public class IssueController {
     public ResponseEntity<SuccessResponse<List<TotalRes>>> getAll() {
         return ResponseEntity.ok(SuccessResponse.create(IssueResponseMessage.GET_ISSUE_SUCCESS.getMessage(),this.issueService.getTotals()));
     }
+    @GetMapping("/topic/all")
+    public ResponseEntity<SuccessResponse<List<TopicAndIssueRes>>> getTopicAndIssue() {
+        return ResponseEntity.ok(SuccessResponse.create(IssueResponseMessage.GET_ISSUE_SUCCESS.getMessage(),this.issueService.getTopicAndIssueList()));
+    }
+
 }

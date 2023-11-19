@@ -1,11 +1,9 @@
 package gwangjang.server.domain.Issue.domain.service;
 
-import gwangjang.server.domain.Issue.application.dto.res.BubbleChartRes;
-import gwangjang.server.domain.Issue.application.dto.res.IssueRes;
-import gwangjang.server.domain.Issue.application.dto.res.KeywordRes;
-import gwangjang.server.domain.Issue.application.dto.res.TotalRes;
+import gwangjang.server.domain.Issue.application.dto.res.*;
 import gwangjang.server.domain.Issue.domain.entity.Issue;
 import gwangjang.server.domain.Issue.domain.entity.Keyword;
+import gwangjang.server.domain.Issue.domain.entity.Topic;
 import gwangjang.server.domain.Issue.domain.repository.IssueCustomRepository;
 import gwangjang.server.domain.Issue.domain.repository.IssueRepository;
 import gwangjang.server.domain.Issue.domain.repository.KeywordRepository;
@@ -14,6 +12,7 @@ import gwangjang.server.domain.Issue.exception.NotFoundIssueException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -73,5 +72,36 @@ public class IssueService {
         List<Keyword> keywords = keywordRepository.findAll();
 
     return TotalRes.fromIssuesAndKeywords(issues, keywords);
-}
+    }
+    public List<TopicAndIssueRes> getTopicAndIssueList() {
+        List<Topic> topics = topicRepository.findAll();
+        List<TopicAndIssueRes> topicAndIssueResList = new ArrayList<>();
+
+        for (Topic topic : topics) {
+            List<Issue> issues = issueRepository.findByTopicId(topic.getId());
+            List<TopicIssueRes> topicIssueResList = new ArrayList<>();
+
+            for (Issue issue : issues) {
+                TopicIssueRes topicIssueRes = TopicIssueRes.builder()
+                        .id(issue.getId())
+                        .issueTitle(issue.getIssueTitle())
+                        .build();
+
+                topicIssueResList.add(topicIssueRes);
+            }
+
+            TopicAndIssueRes topicAndIssueRes = TopicAndIssueRes.builder()
+                    .topicId(topic.getId())
+                    .topicTitle(topic.getTopicTitle())
+                    .issueList(topicIssueResList)
+                    .build();
+
+            topicAndIssueResList.add(topicAndIssueRes);
+        }
+
+        return topicAndIssueResList;
+    }
+
+
+
 }
