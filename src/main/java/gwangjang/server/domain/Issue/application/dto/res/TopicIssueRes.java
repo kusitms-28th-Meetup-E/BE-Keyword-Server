@@ -7,10 +7,10 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class IssueRes {
+public class TopicIssueRes {
+
+    private Long id;
     private String issueTitle;
-    private String topicTitle;
-    private String imgUrl;
-    private Long issueId;
-    private Long topicId;
+
+
 }

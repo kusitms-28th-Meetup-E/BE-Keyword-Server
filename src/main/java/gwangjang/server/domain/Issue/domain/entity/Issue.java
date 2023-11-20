@@ -19,7 +19,7 @@ public class Issue {
     @Column(name = "issue_id")
     private Long id;
     private String issueTitle;
-
+    private String issueDetail;
     private String imgUrl;
     @ManyToOne
     @JoinColumn(name = "topic_id")
