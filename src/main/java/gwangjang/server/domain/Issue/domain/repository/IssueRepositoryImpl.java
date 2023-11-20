@@ -3,20 +3,19 @@ package gwangjang.server.domain.Issue.domain.repository;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-
-
 import gwangjang.server.domain.Issue.application.dto.res.IssueRes;
+import gwangjang.server.domain.Issue.application.dto.res.KeywordRes;
 import gwangjang.server.domain.Issue.domain.entity.Issue;
-import gwangjang.server.domain.Issue.domain.entity.QIssue;
-
-import gwangjang.server.domain.Issue.domain.entity.QTopic;
+import gwangjang.server.domain.Issue.domain.entity.Keyword;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 import static gwangjang.server.domain.Issue.domain.entity.QIssue.issue;
+
 import static gwangjang.server.domain.Issue.domain.entity.QTopic.topic;
+import static gwangjang.server.domain.Issue.domain.entity.QKeyword.keyword1;
 
 @Repository
 public class IssueRepositoryImpl extends QuerydslRepositorySupport {
@@ -42,17 +41,44 @@ public class IssueRepositoryImpl extends QuerydslRepositorySupport {
             String issueTitle = issueTuple.get(issue.issueTitle);
             String imgUrl = issueTuple.get(issue.imgUrl);
 
+
             // Second query to get topicTitle based on topicId associated with the issue
-            String topicTitle = jpaQueryFactory
-                    .select(topic.topicTitle)
+            Tuple topicTuple = jpaQueryFactory
+                    .select(topic.topicTitle,
+                            topic.id
+                            )
                     .from(issue)
                     .leftJoin(issue.topic, topic)
                     .where(issue.id.eq(issueId))
                     .fetchOne();
 
-            return Optional.of(new IssueRes(issueTitle, topicTitle, imgUrl));
+            return Optional.of(new IssueRes(issueTitle, topicTuple.get(topic.topicTitle), imgUrl, issueId , topicTuple.get(topic.id)));
         }
 
         return Optional.empty();
     }
+    public Optional<KeywordRes> findKeywordsByIssueId(Long issueId) {
+        KeywordRes keywordRes = jpaQueryFactory
+                .select(
+                        Projections.constructor(
+                                KeywordRes.class,
+                                issue.id,
+                                issue.issueTitle,
+                                issue.imgUrl,
+                                topic.id,
+                                topic.topicTitle,
+                                keyword1.id,
+                                keyword1.keyword
+                        )
+                )
+                .from(issue)
+                .leftJoin(issue.topic, topic)
+                .leftJoin(keyword1).on(issue.eq(keyword1.issue))
+                .where(issue.id.eq(issueId))
+                .fetchOne();
+
+        return Optional.ofNullable(keywordRes);
+    }
+
+
 }

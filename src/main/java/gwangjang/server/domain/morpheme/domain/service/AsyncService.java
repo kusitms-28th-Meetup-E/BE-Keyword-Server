@@ -21,7 +21,7 @@ public class AsyncService {
 
     private final MorphemeService morphemeService;
     @Async
-    public CompletableFuture<Void> asyncMethodNews(String newsList1) throws JsonProcessingException {
+    public CompletableFuture<Void> asyncMethodNews(String newsList1, int id) throws JsonProcessingException {
         logger.debug("ASYNC Start 1");
         List<Token> newsAnalysis1 =newsAPIService.analysis(newsList1);
         logger.debug("ASYNC Start");
