@@ -112,5 +112,9 @@ public class IssueService {
                 ))
                 .collect(Collectors.toList());
     }
+    public List<IssueDetailTopicRes> getAllIssueDetailTopicRes(){
+        List<IssueDetailTopicRes> list = issueRepository.getAllIssueDetailTopicRes();
+        return list;
+    }
 
 }

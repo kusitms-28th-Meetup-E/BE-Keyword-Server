@@ -40,5 +40,9 @@ public class IssueController {
         return ResponseEntity.ok(SuccessResponse.create(IssueResponseMessage.GET_ISSUE_SUCCESS.getMessage(),this.issueService.getAllIssue()));
     }
 
+    @GetMapping("/topic/issueDetail/all")
+    public ResponseEntity<SuccessResponse<List<IssueDetailTopicRes>>> getIssueDetailAndTopicAll() {
+        return ResponseEntity.ok(SuccessResponse.create(IssueResponseMessage.GET_ISSUE_SUCCESS.getMessage(),this.issueService.getAllIssueDetailTopicRes()));
+    }
 
 }
