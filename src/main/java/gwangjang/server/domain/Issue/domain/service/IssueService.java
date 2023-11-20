@@ -13,9 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -102,6 +100,17 @@ public class IssueService {
         return topicAndIssueResList;
     }
 
+    public List<IssueDetailRes> getAllIssue() {
+        List<Issue> issues = issueRepository.findAll();
 
+        return issues.stream()
+                .map(issue -> new IssueDetailRes(
+                        issue.getIssueTitle(),
+                        issue.getImgUrl(),
+                        issue.getIssueDetail(),
+                        issue.getId()
+                ))
+                .collect(Collectors.toList());
+    }
 
 }
