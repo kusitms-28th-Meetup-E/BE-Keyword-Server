@@ -3,6 +3,7 @@ package gwangjang.server.domain.Issue.domain.repository;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import gwangjang.server.domain.Issue.application.dto.res.IssueDetailTopicRes;
 import gwangjang.server.domain.Issue.application.dto.res.IssueRes;
 import gwangjang.server.domain.Issue.application.dto.res.KeywordRes;
 import gwangjang.server.domain.Issue.domain.entity.Issue;
@@ -10,7 +11,9 @@ import gwangjang.server.domain.Issue.domain.entity.Keyword;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static gwangjang.server.domain.Issue.domain.entity.QIssue.issue;
 
@@ -79,6 +82,29 @@ public class IssueRepositoryImpl extends QuerydslRepositorySupport {
 
         return Optional.ofNullable(keywordRes);
     }
-
+    public List<IssueDetailTopicRes> getAllIssueDetailTopicRes() {
+        return jpaQueryFactory
+                .select(
+                        issue.id,
+                        issue.issueTitle,
+                        issue.issueDetail,
+                        issue.imgUrl,
+                        topic.id,
+                        topic.topicTitle
+                )
+                .from(issue)
+                .leftJoin(issue.topic, topic)
+                .fetch()
+                .stream()
+                .map(tuple -> new IssueDetailTopicRes(
+                        tuple.get(issue.id),
+                        tuple.get(issue.issueTitle),
+                        tuple.get(issue.issueDetail),
+                        tuple.get(issue.imgUrl),
+                        tuple.get(topic.id),
+                        tuple.get(topic.topicTitle)
+                ))
+                .collect(Collectors.toList());
+    }
 
 }
