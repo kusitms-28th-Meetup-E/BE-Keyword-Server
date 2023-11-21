@@ -1,6 +1,7 @@
 package gwangjang.server.domain.Issue.domain.service;
 
 import gwangjang.server.domain.Issue.application.dto.res.*;
+import gwangjang.server.domain.Issue.application.mapper.IssueMapper;
 import gwangjang.server.domain.Issue.domain.entity.Issue;
 import gwangjang.server.domain.Issue.domain.entity.Keyword;
 import gwangjang.server.domain.Issue.domain.entity.Topic;
@@ -10,6 +11,7 @@ import gwangjang.server.domain.Issue.domain.repository.KeywordRepository;
 import gwangjang.server.domain.Issue.domain.repository.TopicRepository;
 import gwangjang.server.domain.Issue.exception.NotFoundIssueException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,6 +26,8 @@ public class IssueService {
     private final TopicRepository topicRepository;
 
     private final IssueRepository issueRepository;
+
+    private final IssueMapper issueMapper = new IssueMapper();
 
 
     public IssueRes findIssueAndTopicById(Long issueId) {
@@ -115,6 +119,20 @@ public class IssueService {
     public List<IssueDetailTopicRes> getAllIssueDetailTopicRes(){
         List<IssueDetailTopicRes> list = issueRepository.getAllIssueDetailTopicRes();
         return list;
+    }
+    public SearchRes search(String keyword) {
+        List<Issue> searchResults = issueRepository.search(keyword);
+
+        List<SearchListRes> issueResList = searchResults.stream()
+                .map(issueMapper::mapToSearchListRes)
+                .collect(Collectors.toList());
+
+        SearchRes searchRes = new SearchRes();
+        searchRes.setSearchKeyword(keyword);
+        searchRes.setSearchCount(String.valueOf(searchResults.size()));
+        searchRes.setIssueResList(issueResList);
+
+        return searchRes;
     }
 
 }

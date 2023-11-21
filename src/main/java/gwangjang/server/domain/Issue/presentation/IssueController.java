@@ -44,5 +44,9 @@ public class IssueController {
     public ResponseEntity<SuccessResponse<List<IssueDetailTopicRes>>> getIssueDetailAndTopicAll() {
         return ResponseEntity.ok(SuccessResponse.create(IssueResponseMessage.GET_ISSUE_SUCCESS.getMessage(),this.issueService.getAllIssueDetailTopicRes()));
     }
+    @GetMapping("/search/{keyword}")
+    public ResponseEntity<SuccessResponse<SearchRes>> search(@PathVariable String keyword) {
+        return ResponseEntity.ok(SuccessResponse.create(IssueResponseMessage.GET_ISSUE_SUCCESS.getMessage(),this.issueService.search(keyword)));
+    }
 
 }
