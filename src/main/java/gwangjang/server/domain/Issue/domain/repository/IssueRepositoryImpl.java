@@ -2,12 +2,16 @@ package gwangjang.server.domain.Issue.domain.repository;
 
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.StringExpression;
+import com.querydsl.core.types.dsl.StringPath;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import gwangjang.server.domain.Issue.application.dto.res.IssueDetailTopicRes;
 import gwangjang.server.domain.Issue.application.dto.res.IssueRes;
 import gwangjang.server.domain.Issue.application.dto.res.KeywordRes;
 import gwangjang.server.domain.Issue.domain.entity.Issue;
 import gwangjang.server.domain.Issue.domain.entity.Keyword;
+import gwangjang.server.domain.Issue.domain.entity.QIssue;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
 
@@ -105,6 +109,23 @@ public class IssueRepositoryImpl extends QuerydslRepositorySupport {
                         tuple.get(topic.topicTitle)
                 ))
                 .collect(Collectors.toList());
+    }
+    public List<Issue> search(String keyword) {
+        QIssue issue = QIssue.issue;
+
+        return jpaQueryFactory
+                .selectFrom(issue)
+                .leftJoin(issue.keywords).fetchJoin()
+                .where(
+                        containsIgnoreCase(issue.issueTitle, keyword)
+                                .or(containsIgnoreCase(issue.issueDetail, keyword))
+                                .or(containsIgnoreCase(issue.topic.topicTitle, keyword))
+                )
+                .fetch();
+    }
+
+    private BooleanExpression containsIgnoreCase(StringPath path, String keyword) {
+        return path.lower().contains(keyword.toLowerCase());
     }
 
 }
