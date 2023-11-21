@@ -19,9 +19,15 @@ public class NaverTrendByIssueUseCase {
 
     public List<TrendRes.Trend> getNaverTrend(String issue) {
 
+        if(issue.length() > 13){
+            issue = issue.substring(0, 7);
+            System.out.println(issue);
+        }
+
+        String replace = issue.replace(" ", "");
         List<TrendRes.Trend> trendList = new ArrayList<>();
 
-        TrendRes trendRes = naverTrendUtil.main(issue);
+        TrendRes trendRes = naverTrendUtil.main(replace);
 
         trendRes.getResults().get(0).getData().stream().forEach(
 
