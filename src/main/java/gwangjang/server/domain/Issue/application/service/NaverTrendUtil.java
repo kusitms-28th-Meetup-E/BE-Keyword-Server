@@ -34,7 +34,7 @@ public class NaverTrendUtil {
 
     String apiUrl = "https://openapi.naver.com/v1/datalab/search";
 
-    public TrendRes main() throws JsonProcessingException {
+    public TrendRes main(String issue)  {
         Map<String, String> requestHeaders = new HashMap<>();
         requestHeaders.put("X-Naver-Client-Id", clientId);
         requestHeaders.put("X-Naver-Client-Secret", clientSecret);
@@ -50,14 +50,12 @@ public class NaverTrendUtil {
                 .startDate(formattedSixMonthsAgo)
                 .endDate(formattedToday)
                 .timeUnit("week")
-                .keywordGroups(Collections.singletonList(new KeywordGroups("후쿠시마 오염수")))
+                .keywordGroups(Collections.singletonList(new KeywordGroups(issue)))
                 .build();
 
         String requestBody = build.toString();
         // JSON 문자열을 TrendRes 객체로 변환
         String jsonResponse = post(apiUrl, requestHeaders, requestBody);
-
-        System.out.println("!!" + jsonResponse);
 
         ObjectMapper objectMapper = new ObjectMapper();
         TrendRes trendRes = new TrendRes();
