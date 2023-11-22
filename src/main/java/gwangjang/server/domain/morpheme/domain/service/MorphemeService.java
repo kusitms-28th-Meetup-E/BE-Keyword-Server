@@ -3,19 +3,20 @@ package gwangjang.server.domain.morpheme.domain.service;
 import gwangjang.server.domain.morpheme.domain.entity.Morpheme;
 import gwangjang.server.domain.morpheme.domain.repository.MorphemeRepository;
 import gwangjang.server.global.annotation.DomainService;
-import jakarta.transaction.Transactional;
+
 import kr.co.shineware.nlp.komoran.model.Token;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @DomainService
-@Transactional
 @RequiredArgsConstructor
 public class MorphemeService {
     private final MorphemeRepository morphemeRepository;
 
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void saveOrUpdateWord(List<Token> tokens , int id) {
         for (Token token : tokens) {
             String word = token.getMorph();
