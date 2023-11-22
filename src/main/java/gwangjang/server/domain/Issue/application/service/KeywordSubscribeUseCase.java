@@ -17,7 +17,7 @@ public class KeywordSubscribeUseCase {
     public List<MainBubbleRes> getBubbleData() {
         List<MainBubbleRes> mainBubbleRes = new ArrayList<>();
         List<MainBubbleData> mainBubbleData1 = new ArrayList<>();
-        mainBubbleData1.add(new MainBubbleData("후쿠시마 오염", 356L));
+        mainBubbleData1.add(new MainBubbleData("후쿠시마 오염수", 356L));
         mainBubbleData1.add(new MainBubbleData("일회용품 사용 규제 시행", 123L));
         mainBubbleRes.add(new MainBubbleRes("환경", mainBubbleData1));
 
