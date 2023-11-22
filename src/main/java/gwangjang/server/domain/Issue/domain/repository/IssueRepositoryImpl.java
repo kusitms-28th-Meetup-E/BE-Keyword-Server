@@ -146,5 +146,5 @@ public class IssueRepositoryImpl extends QuerydslRepositorySupport {
 
         return resultList;
     }
-
+    //분석된 결과 다ㅓㅅ개
 }
