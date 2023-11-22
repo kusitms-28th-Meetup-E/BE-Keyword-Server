@@ -48,5 +48,9 @@ public class IssueController {
     public ResponseEntity<SuccessResponse<SearchRes>> search(@PathVariable String keyword) {
         return ResponseEntity.ok(SuccessResponse.create(IssueResponseMessage.GET_ISSUE_SUCCESS.getMessage(),this.issueService.search(keyword)));
     }
+    @GetMapping("/random/issue")
+    public ResponseEntity<SuccessResponse<List<TopicIssue>>> getRandomIssue() {
+        return ResponseEntity.ok(SuccessResponse.create(IssueResponseMessage.GET_ISSUE_SUCCESS.getMessage(),this.issueService.findRandomIssues()));
+    }
 
 }
