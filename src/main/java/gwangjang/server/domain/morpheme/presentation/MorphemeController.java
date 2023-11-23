@@ -49,6 +49,7 @@ public class MorphemeController {
         try {
             allOf.get();
             logger.debug("비동기 종료");
+            //update keyword
             return "success";
         } catch (InterruptedException | ExecutionException e) {
             logger.error("비동기 작업 중 오류 발생", e);

@@ -135,4 +135,8 @@ public class IssueService {
         return searchRes;
     }
 
+    public List<TopicIssue> findRandomIssues(){
+        return issueRepository.findRandomIssues();
+    }
+
 }

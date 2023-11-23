@@ -2,16 +2,16 @@ package gwangjang.server.domain.Issue.domain.repository;
 
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.StringExpression;
-import com.querydsl.core.types.dsl.StringPath;
+import com.querydsl.core.types.dsl.*;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import gwangjang.server.domain.Issue.application.dto.res.IssueDetailTopicRes;
 import gwangjang.server.domain.Issue.application.dto.res.IssueRes;
 import gwangjang.server.domain.Issue.application.dto.res.KeywordRes;
+import gwangjang.server.domain.Issue.application.dto.res.TopicIssue;
 import gwangjang.server.domain.Issue.domain.entity.Issue;
 import gwangjang.server.domain.Issue.domain.entity.Keyword;
 import gwangjang.server.domain.Issue.domain.entity.QIssue;
+import gwangjang.server.domain.Issue.domain.entity.QTopic;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
 
@@ -127,5 +127,24 @@ public class IssueRepositoryImpl extends QuerydslRepositorySupport {
     private BooleanExpression containsIgnoreCase(StringPath path, String keyword) {
         return path.lower().contains(keyword.toLowerCase());
     }
+    public List<TopicIssue> findRandomIssues() {
+        NumberTemplate<Double> random = Expressions.numberTemplate(Double.class, "rand()");
+        QIssue issue = QIssue.issue;
+        QTopic topic = QTopic.topic;
+        List<Tuple> result = jpaQueryFactory
+                .select(issue.issueTitle, topic.topicTitle)
+                .from(issue)
+                .join(topic).on(issue.topic.id.eq(topic.id))
+                .orderBy(random.asc())
+                .limit(3)
+                .fetch();
 
+// Assuming you have a class to hold the result, let's call it RandomIssueResult
+        List<TopicIssue> resultList = result.stream()
+                .map(tuple -> new TopicIssue(tuple.get(issue.issueTitle), tuple.get(topic.topicTitle)))
+                .collect(Collectors.toList());
+
+        return resultList;
+    }
+    //분석된 결과 다ㅓㅅ개
 }

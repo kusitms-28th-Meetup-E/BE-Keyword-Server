@@ -33,9 +33,6 @@ public class NewsAPIService {
     private String NAVER_API_SECRET;
     private final RestTemplate restTemplate;
     ObjectMapper objectMapper = new ObjectMapper();
-
-
-
     @Autowired
     public NewsAPIService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
