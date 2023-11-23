@@ -17,7 +17,6 @@ public class KeywordSubscribeUseCase {
     public List<MainBubbleRes> getBubbleData() {
         List<MainBubbleRes> mainBubbleRes = new ArrayList<>();
 
-
         List<MainBubbleData> mainBubbleData2 = new ArrayList<>();
         mainBubbleData2.add(new MainBubbleData("SPC 불매 운동", 335L));
         mainBubbleData2.add(new MainBubbleData("쿠팡 노동자 사망", 121L));
