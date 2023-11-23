@@ -1,3 +1,5 @@
+import org.gradle.api.tasks.compile.JavaCompile
+
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.0.11'
@@ -88,6 +90,12 @@ dependencies {
 	implementation 'commons-logging:commons-logging:1.2'
 	implementation group: 'log4j', name: 'log4j', version: '1.2.17'
 
+	implementation group: 'org.springframework.cloud', name: 'spring-cloud-stream-binder-kafka', version: '3.2.1'
+	implementation 'org.springframework.cloud:spring-cloud-stream'
+	implementation group: 'org.springframework.cloud', name: 'spring-cloud-stream-binder-kafka', version: '3.2.1'
+
+	implementation 'org.springframework.cloud:spring-cloud-stream:3.2.1'
+
 }
 
 dependencyManagement {
@@ -104,4 +112,20 @@ bootJar{
 	archivesBaseName = 'keywordService'
 	archiveFileName = 'keywordService.jar'
 	archiveVersion = "0.0.1"
+}
+
+// === Querydsl 빌드 옵션 (선택사항) ===
+
+def querydslDir = "$buildDir/generated/querydsl"
+
+sourceSets {
+	main.java.srcDirs += [ querydslDir ]
+}
+
+tasks.withType(JavaCompile) {
+	options.annotationProcessorGeneratedSourcesDirectory = file(querydslDir)
+}
+
+clean.doLast {
+	file(querydslDir).deleteDir()
 }
