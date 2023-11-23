@@ -53,4 +53,5 @@ public class IssueController {
         return ResponseEntity.ok(SuccessResponse.create(IssueResponseMessage.GET_ISSUE_SUCCESS.getMessage(),this.issueService.findRandomIssues()));
     }
 
+
 }

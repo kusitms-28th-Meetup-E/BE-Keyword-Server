@@ -10,6 +10,7 @@ import gwangjang.server.domain.Issue.domain.repository.IssueRepository;
 import gwangjang.server.domain.Issue.domain.repository.KeywordRepository;
 import gwangjang.server.domain.Issue.domain.repository.TopicRepository;
 import gwangjang.server.domain.Issue.exception.NotFoundIssueException;
+import gwangjang.server.global.feign.FindMemberFeignClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,8 @@ public class IssueService {
     private final IssueRepository issueRepository;
 
     private final IssueMapper issueMapper = new IssueMapper();
+
+
 
 
     public IssueRes findIssueAndTopicById(Long issueId) {
@@ -138,5 +141,4 @@ public class IssueService {
     public List<TopicIssue> findRandomIssues(){
         return issueRepository.findRandomIssues();
     }
-
 }
