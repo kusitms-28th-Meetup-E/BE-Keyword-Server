@@ -1,4 +1,4 @@
-package gwangjang.server.domain.community.adapter.out.source;
-
-public class KafkaSourceBean {
-}
+//package gwangjang.server.domain.Issue.adapter.out.source;
+//
+//public class KafkaSourceBean {
+//}
