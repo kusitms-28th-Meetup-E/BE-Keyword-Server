@@ -1,6 +1,7 @@
 package gwangjang.server.domain.Issue.application.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import gwangjang.server.domain.Issue.application.dto.res.NaverTrendDto;
 import gwangjang.server.domain.Issue.application.dto.res.TrendRes;
 import gwangjang.server.domain.Issue.application.dto.res.TrendRes.DataPoint;
 import jakarta.transaction.Transactional;
@@ -17,7 +18,7 @@ public class NaverTrendByIssueUseCase {
 
     private final NaverTrendUtil naverTrendUtil;
 
-    public List<TrendRes.Trend> getNaverTrend(String issue) {
+    public NaverTrendDto getNaverTrend(String issue) {
 
         if(issue.length() > 13){
             issue = issue.substring(0, 7);
@@ -27,14 +28,6 @@ public class NaverTrendByIssueUseCase {
         String replace = issue.replace(" ", "");
 
         TrendRes trendRes = naverTrendUtil.main(replace);
-
-//        trendRes.getResults().get(0).getData().stream().forEach(
-//
-//                dataPoint ->{
-//                    dataPoint.updatePeriod();
-//                    trendList.add(new TrendRes.Trend(dataPoint.getPeriod(), dataPoint.getRatio()));
-//                }
-//            );
 
 
         String [] month = new String[] {"5월 1주차", "5월 2주차", "5월 3주차", "5월 4주차", "5월 5주차", "6월 1주차",
@@ -50,9 +43,15 @@ public class NaverTrendByIssueUseCase {
                 dataPoint -> dataPoint.updatePeriod()
         );
 
+        int max = 0;
+        String maxDate = null;
         int j = 0;
         for (int i = 0; i < month.length; i++) {
             if (j < data.size() && data.get(j).getPeriod().equals(month[i])) {
+                if (max < data.get(j).getRatio()) {
+                    max = data.get(j).getRatio();
+                    maxDate = data.get(j).getPeriod();
+                }
                 trendList.add(new TrendRes.Trend(data.get(j).getPeriod(), data.get(j).getRatio()));
                 j++;
             } else {
@@ -60,8 +59,7 @@ public class NaverTrendByIssueUseCase {
             }
         }
 
-
-        return trendList;
+        return new NaverTrendDto(trendList,maxDate);
 
 
     }
