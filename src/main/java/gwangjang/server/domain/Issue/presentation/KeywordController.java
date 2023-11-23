@@ -1,7 +1,10 @@
 package gwangjang.server.domain.Issue.presentation;
 
-
 import gwangjang.server.domain.Issue.application.dto.res.*;
+import gwangjang.server.domain.Issue.application.dto.res.MainBubbleRes;
+import gwangjang.server.domain.Issue.application.dto.res.NaverTrendDto;
+import gwangjang.server.domain.Issue.application.dto.res.TrendIssueGraphRes;
+import gwangjang.server.domain.Issue.application.dto.res.TrendRes;
 import gwangjang.server.domain.Issue.application.service.KeywordSubscribeUseCase;
 import gwangjang.server.domain.Issue.application.service.NaverTrendByIssueUseCase;
 import gwangjang.server.global.response.SuccessResponse;
@@ -33,7 +36,7 @@ public class KeywordController {
 
     @GetMapping("/trend/{issue}")
 //    public ResponseEntity<SuccessResponse<List<TrendIssueGraphRes>>> getTrendDataByIssue() {
-    public ResponseEntity<SuccessResponse<List<TrendRes.Trend>>> getTrendDataByIssue(@PathVariable("issue") String issue) {
+    public ResponseEntity<SuccessResponse<NaverTrendDto>> getTrendDataByIssue(@PathVariable("issue") String issue) {
         return ResponseEntity.ok(SuccessResponse.create(GET_MAIN_BUBBLE_CHART.getMessage(), this.naverTrendByIssueUseCase.getNaverTrend(issue)));
     }
 

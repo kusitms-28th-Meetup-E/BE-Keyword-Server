@@ -86,5 +86,6 @@ public class KeywordSubscribeUseCase {
 
         // Calculate subscriber count within the specified ratio
         return (int) (minSubscriberCount + (maxSubscriberCount - minSubscriberCount + 1) * ratio);
+
     }
 }
