@@ -1,6 +1,6 @@
 package gwangjang.server.domain.Issue.presentation;
 
-
+import gwangjang.server.domain.Issue.application.dto.res.*;
 import gwangjang.server.domain.Issue.application.dto.res.MainBubbleRes;
 import gwangjang.server.domain.Issue.application.dto.res.NaverTrendDto;
 import gwangjang.server.domain.Issue.application.dto.res.TrendIssueGraphRes;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static gwangjang.server.domain.Issue.presentation.constant.IssueResponseMessage.GET_MAIN_BUBBLE_CHART;
 

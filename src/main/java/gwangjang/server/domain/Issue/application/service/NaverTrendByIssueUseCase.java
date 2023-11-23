@@ -8,8 +8,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 @Transactional
@@ -29,13 +28,13 @@ public class NaverTrendByIssueUseCase {
 
         TrendRes trendRes = naverTrendUtil.main(replace);
 
-
         String [] month = new String[] {"5월 1주차", "5월 2주차", "5월 3주차", "5월 4주차", "5월 5주차", "6월 1주차",
                 "6월 2주차", "6월 3주차", "6월 4주차", "7월 1주차", "7월 2주차", "7월 3주차", "7월 4주차","7월 5주차",
                 "8월 1주차", "8월 2주차", "8월 3주차", "8월 4주차", "8월 5주차", "9월 1주차", "9월 2주차", "9월 3주차",
                 "9월 4주차","10월 1주차","10월 2주차","10월 3주차","10월 4주차","10월 5주차","11월 1주차","11월 2주차","11월 3주차" } ;
 
         List<TrendRes.Trend> trendList = new ArrayList<>();
+
 
         List<DataPoint> data = trendRes.getResults().get(0).getData();
 
