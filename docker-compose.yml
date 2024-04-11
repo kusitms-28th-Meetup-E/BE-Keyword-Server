@@ -2,9 +2,6 @@ version: '3'
 services:
   keyword:
     image: gwangjang/keyword
-    depends_on:
-      - eureka
-      - apigateway
     environment:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://3.34.93.53:8761/eureka/
     ports:
